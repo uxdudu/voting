@@ -7,3 +7,5 @@ server/votes.db
 .DS_Store
 dist/
 client/dist/
+.vercel
+.env*.local
