@@ -5,7 +5,7 @@ const supabase = createClient(
   process.env.SUPABASE_ANON_KEY
 );
 
-const TEACHER_PASSWORD = process.env.TEACHER_PASSWORD || 'professor123';
+const TEACHER_PASSWORD = (process.env.TEACHER_PASSWORD || 'professor123').trim();
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
