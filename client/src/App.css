@@ -738,3 +738,167 @@ html, body, #root {
   color: #aaa;
   font-style: italic;
 }
+
+/* ─── Mobile responsive ─── */
+@media (max-width: 640px) {
+  :root {
+    --keyboard-w: 100%;
+  }
+
+  html, body, #root {
+    overflow: auto;
+  }
+
+  .urna {
+    overflow: auto;
+  }
+
+  /* Stack screen + keyboard vertically */
+  .urna-body {
+    flex-direction: column;
+    overflow: auto;
+  }
+
+  .urna-screen {
+    margin: 8px 8px 4px 8px;
+    padding: 14px 16px 12px;
+    flex: none;
+  }
+
+  .urna-keyboard {
+    width: 100%;
+    margin: 4px 8px 8px 8px;
+    border-radius: 6px;
+    padding: 10px 8px;
+    gap: 7px;
+    flex-shrink: 0;
+  }
+
+  .key {
+    font-size: clamp(18px, 6vw, 26px);
+    padding: 12px 0;
+  }
+
+  .key.key-corrige,
+  .key.key-branco,
+  .key.key-confirma,
+  .key.key-laranja {
+    padding: 10px 0;
+  }
+
+  /* Digit row */
+  .digit-row {
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .digit-label {
+    font-size: 12px;
+    min-width: 50px;
+  }
+
+  .digit-box {
+    width: clamp(38px, 10vw, 52px);
+    height: clamp(46px, 10vh, 60px);
+    font-size: clamp(26px, 7vw, 36px);
+  }
+
+  /* Cargo title */
+  .urna-cargo {
+    font-size: clamp(22px, 6vw, 32px);
+    margin-bottom: 10px;
+  }
+
+  /* Candidate section stacks vertically on very small screens */
+  .candidate-section {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .candidate-row {
+    gap: 10px;
+  }
+
+  .candidate-photo,
+  .candidate-photo-placeholder {
+    width: clamp(70px, 18vw, 100px);
+    height: clamp(88px, 22vw, 124px);
+  }
+
+  .candidate-info .nome {
+    font-size: clamp(13px, 4vw, 17px);
+  }
+
+  /* Instructions */
+  .urna-instructions {
+    font-size: 11px;
+    padding-top: 6px;
+  }
+
+  /* Welcome screen */
+  .welcome-title {
+    font-size: clamp(28px, 8vw, 44px);
+    letter-spacing: 3px;
+  }
+
+  .welcome-subtitle {
+    font-size: clamp(12px, 3.5vw, 16px);
+  }
+
+  .welcome-cta {
+    font-size: clamp(14px, 4vw, 18px);
+    padding: 14px 32px;
+  }
+
+  /* Results grid: 2 columns on mobile */
+  .results-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .results-screen--cards {
+    padding: 16px;
+    gap: 14px;
+  }
+
+  .result-card {
+    padding: 14px 10px 12px;
+  }
+
+  .result-pct {
+    font-size: 20px;
+  }
+
+  .result-card-photos {
+    width: 80px;
+    height: 80px;
+  }
+
+  .result-photo-wrap {
+    width: 68px;
+    height: 68px;
+  }
+
+  .result-photo-vice {
+    top: 12px;
+    left: 12px;
+    width: 58px;
+    height: 58px;
+  }
+
+  .results-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .results-title {
+    font-size: 18px;
+  }
+
+  /* Login form */
+  .login-form input {
+    width: 90%;
+    max-width: 260px;
+  }
+}

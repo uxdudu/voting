@@ -10,13 +10,12 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
+    "@vitejs/plugin-react": "^4.3.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.23.1",
-    "react-simple-keyboard": "^3.7.112"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.1",
+    "react-simple-keyboard": "^3.7.112",
     "vite": "^5.3.1"
-  }
+  },
+  "devDependencies": {}
 }
