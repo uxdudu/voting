@@ -1,0 +1,11 @@
+{
+  "installCommand": "npm install --include=dev --prefix client",
+  "buildCommand": "npm run build --prefix client",
+  "outputDirectory": "client/dist",
+  "rewrites": [
+    { "source": "/api/vote", "destination": "/api/vote" },
+    { "source": "/api/results", "destination": "/api/results" },
+    { "source": "/api/status", "destination": "/api/status" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
