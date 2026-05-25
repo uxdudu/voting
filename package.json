@@ -2,9 +2,13 @@
   "name": "urna-eletronica",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
     "start": "concurrently \"npm start --prefix server\" \"npm run preview --prefix client\""
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
