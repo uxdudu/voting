@@ -1,6 +1,78 @@
 import { useState } from 'react';
 import { chapas } from '../data/chapas';
 
+function ChapaCard({ chapa, count, total, rank }) {
+  const pct = total > 0 ? ((count / total) * 100).toFixed(2) : '0.00';
+  const [presErr, setPresErr] = useState(false);
+  const [viceErr, setViceErr] = useState(false);
+
+  return (
+    <div className="result-card">
+      <div className="result-card-photos">
+        <div className="result-photo-wrap">
+          {presErr
+            ? <div className="result-photo-fallback"><SilhouetteIcon /></div>
+            : <img src={chapa.presidente.foto} alt={chapa.presidente.nome} className="result-photo" onError={() => setPresErr(true)} />}
+          <span className="result-numero-badge">{chapa.numero}</span>
+        </div>
+        <div className="result-photo-wrap result-photo-vice">
+          {viceErr
+            ? <div className="result-photo-fallback"><SilhouetteIcon /></div>
+            : <img src={chapa.vice.foto} alt={chapa.vice.nome} className="result-photo" onError={() => setViceErr(true)} />}
+        </div>
+      </div>
+
+      <div className="result-pct">{pct}%</div>
+      <div className="result-votes">{count.toLocaleString('pt-BR')} {count === 1 ? 'voto' : 'votos'}</div>
+
+      <div className="result-bar-wrap">
+        <div className="result-bar-fill" style={{ width: `${pct}%` }} />
+      </div>
+
+      <div className="result-names">
+        <span className="result-name-pres">{chapa.presidente.nome}</span>
+        <span className="result-name-vice">{chapa.vice.nome}</span>
+      </div>
+    </div>
+  );
+}
+
+function BrancoCard({ count, total }) {
+  const pct = total > 0 ? ((count / total) * 100).toFixed(2) : '0.00';
+  return (
+    <div className="result-card result-card--branco">
+      <div className="result-card-photos">
+        <div className="result-photo-wrap">
+          <div className="result-photo-fallback result-photo-branco">
+            <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="40" cy="40" r="40" fill="#e0e0e0"/>
+              <text x="40" y="52" textAnchor="middle" fontSize="32" fill="#888">—</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div className="result-pct result-pct--branco">{pct}%</div>
+      <div className="result-votes">{count.toLocaleString('pt-BR')} {count === 1 ? 'voto' : 'votos'}</div>
+      <div className="result-bar-wrap">
+        <div className="result-bar-fill result-bar-fill--branco" style={{ width: `${pct}%` }} />
+      </div>
+      <div className="result-names">
+        <span className="result-name-pres">Voto em Branco</span>
+      </div>
+    </div>
+  );
+}
+
+function SilhouetteIcon() {
+  return (
+    <svg viewBox="0 0 80 80" fill="#aaa" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="40" cy="40" r="40" fill="#ddd"/>
+      <circle cx="40" cy="28" r="14" fill="#aaa"/>
+      <ellipse cx="40" cy="68" rx="24" ry="18" fill="#aaa"/>
+    </svg>
+  );
+}
+
 export default function ResultsScreen() {
   const [password, setPassword] = useState('');
   const [results, setResults] = useState(null);
@@ -15,14 +87,10 @@ export default function ResultsScreen() {
       const res = await fetch('/api/results', {
         headers: { 'x-teacher-password': password },
       });
-      if (res.status === 401) {
-        setError('Senha incorreta. Tente novamente.');
-        setLoading(false);
-        return;
-      }
+      if (res.status === 401) { setError('Senha incorreta.'); setLoading(false); return; }
       const data = await res.json();
       setResults(data);
-    } catch (_) {
+    } catch {
       setError('Erro ao conectar ao servidor.');
     }
     setLoading(false);
@@ -33,16 +101,8 @@ export default function ResultsScreen() {
       <div className="results-screen">
         <form className="login-form" onSubmit={handleLogin}>
           <h2>Painel do Professor</h2>
-          <input
-            type="password"
-            placeholder="Senha"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            autoFocus
-          />
-          <button type="submit" disabled={loading}>
-            {loading ? 'Verificando...' : 'Entrar'}
-          </button>
+          <input type="password" placeholder="Senha" value={password} onChange={e => setPassword(e.target.value)} autoFocus />
+          <button type="submit" disabled={loading}>{loading ? 'Verificando...' : 'Entrar'}</button>
           {error && <div className="login-error">{error}</div>}
         </form>
       </div>
@@ -57,68 +117,24 @@ export default function ResultsScreen() {
   }
 
   const brancosCount = getCount('branco');
+  const sorted = [...chapas].sort((a, b) => getCount(b.numero) - getCount(a.numero));
 
   return (
-    <div className="results-screen">
-      <div className="results-title">Resultado da Eleição</div>
-      <div className="results-total">Total de votos: {total}</div>
-      <table className="results-table">
-        <thead>
-          <tr>
-            <th>Nº</th>
-            <th>Chapa</th>
-            <th>Presidente</th>
-            <th>Vice-Presidente</th>
-            <th>Votos</th>
-            <th>%</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {chapas.map(c => {
-            const count = getCount(c.numero);
-            const pct = total > 0 ? Math.round((count / total) * 100) : 0;
-            return (
-              <tr key={c.numero}>
-                <td>{c.numero}</td>
-                <td>{c.nome}</td>
-                <td>{c.presidente.nome}</td>
-                <td>{c.vice.nome}</td>
-                <td><strong>{count}</strong></td>
-                <td>{pct}%</td>
-                <td>
-                  <div className="results-bar-wrap">
-                    <div className="results-bar" style={{ width: `${pct}%` }} />
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
-          <tr>
-            <td>—</td>
-            <td colSpan={3}><em>Votos em branco</em></td>
-            <td><strong>{brancosCount}</strong></td>
-            <td>{total > 0 ? Math.round((brancosCount / total) * 100) : 0}%</td>
-            <td>
-              <div className="results-bar-wrap">
-                <div
-                  className="results-bar"
-                  style={{
-                    width: `${total > 0 ? Math.round((brancosCount / total) * 100) : 0}%`,
-                    background: '#888',
-                  }}
-                />
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <button
-        onClick={() => setResults(null)}
-        style={{ padding: '8px 18px', background: '#1a237e', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer', fontSize: 13 }}
-      >
-        Sair
-      </button>
+    <div className="results-screen results-screen--cards">
+      <div className="results-header">
+        <div>
+          <h2 className="results-title">Resultado da Eleição</h2>
+          <p className="results-total">Total de votos apurados: <strong>{total}</strong></p>
+        </div>
+        <button className="results-logout" onClick={() => setResults(null)}>Sair</button>
+      </div>
+
+      <div className="results-grid">
+        {sorted.map((c, i) => (
+          <ChapaCard key={c.numero} chapa={c} count={getCount(c.numero)} total={total} rank={i} />
+        ))}
+        <BrancoCard count={brancosCount} total={total} />
+      </div>
     </div>
   );
 }
