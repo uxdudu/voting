@@ -243,12 +243,20 @@ export default function VotingScreen() {
           {/* RIGHT: keyboard */}
           <div className="urna-right">
             <div className="urna-brand">
-              <svg viewBox="0 0 32 32" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
-                <path d="M16 4 L4 28 L10 28 L13 22 L19 22 L22 28 L28 28 Z M14.5 18 L17.5 18 L16 14 Z" fill="#1a4470" />
-              </svg>
-              <div className="urna-brand-text">
-                <span className="brand-line-1">Educação</span>
-                <span className="brand-line-2">Adventista</span>
+              <img
+                src="/educacao-adventista.png"
+                alt="Educação Adventista"
+                className="urna-brand-logo"
+                onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextElementSibling.style.display = 'flex'; }}
+              />
+              <div className="urna-brand-fallback" style={{ display: 'none' }}>
+                <svg viewBox="0 0 32 32" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16 4 L4 28 L10 28 L13 22 L19 22 L22 28 L28 28 Z M14.5 18 L17.5 18 L16 14 Z" fill="#1a4470" />
+                </svg>
+                <div className="urna-brand-text">
+                  <span className="brand-line-1">Educação</span>
+                  <span className="brand-line-2">Adventista</span>
+                </div>
               </div>
             </div>
 
