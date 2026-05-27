@@ -19,7 +19,7 @@ html, body, #root {
   width: 100%;
   overflow: hidden;
   background: #000;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Geist', system-ui, -apple-system, sans-serif;
 }
 
 #root {
@@ -28,15 +28,376 @@ html, body, #root {
   justify-content: stretch;
 }
 
-/* ─── Urna (fills screen on tablet) ─── */
+/* ─── Urna (new Figma-based layout) ─── */
 .urna {
   width: 100%;
   flex: 1;
-  background: var(--urna-bg);
+  background: #fff;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   user-select: none;
+}
+
+.urna-content {
+  flex: 1;
+  display: flex;
+  gap: 56px;
+  padding: 40px;
+  background: linear-gradient(180deg, #fff 0%, #fff 60%, #eceff1 100%);
+  min-height: 0;
+}
+
+.urna-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+  height: 100%;
+}
+
+.urna-right {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  width: 375px;
+  flex-shrink: 0;
+}
+
+.urna-top-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(18, 18, 18, 0.05);
+  padding-bottom: 4px;
+}
+
+.urna-eyebrow {
+  flex: 1;
+  font-family: 'Geist', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #001325;
+  opacity: 0.8;
+  margin: 0;
+}
+
+.urna-info {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.urna-info:hover { background: rgba(0, 19, 37, 0.04); }
+
+.urna-title {
+  font-family: 'Geist', sans-serif;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 1.2;
+  color: #001325;
+  opacity: 0.85;
+  margin: 0;
+  max-width: 420px;
+}
+
+.urna-stack {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  min-height: 0;
+}
+
+/* Digit row */
+.digit-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.digit-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.digit-cell {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #cfcfcf;
+  border-radius: 12px;
+  padding: 22px 30px;
+  font-family: 'Geist', sans-serif;
+  font-weight: 500;
+  font-size: 46px;
+  line-height: 1;
+  color: #001325;
+  opacity: 0.1;
+  background: #fff;
+  transition: opacity 0.15s, border-color 0.15s;
+}
+
+.digit-cell.filled {
+  opacity: 1;
+  border-color: #001325;
+}
+
+.digit-caption {
+  font-family: 'Geist', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #001325;
+  opacity: 0.8;
+  margin: 0;
+}
+
+/* Photo row */
+.photo-row {
+  display: flex;
+  gap: 24px;
+  width: 100%;
+}
+
+.photo-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.photo-card {
+  height: 211px;
+  border: 1px solid #cfcfcf;
+  border-radius: 12px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0;
+}
+
+.photo-placeholder {
+  width: 70%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0.12;
+}
+
+.photo-placeholder svg {
+  width: 100%;
+  height: 100%;
+}
+
+.photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.photo-label {
+  font-family: 'Geist', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #001325;
+  opacity: 0.8;
+  margin: 0;
+}
+
+.invalid-banner {
+  color: #c62828;
+  font-family: 'Geist', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  margin: 0;
+}
+
+.urna-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-family: 'Geist', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  color: #001325;
+  opacity: 0.8;
+  align-items: center;
+  border-top: 1px solid rgba(18, 18, 18, 0.05);
+  padding-top: 16px;
+}
+
+.footer-orange { color: #e65100; }
+.footer-green { color: #038f4d; }
+
+/* ─── Right: brand + keypad ─── */
+.urna-brand {
+  height: 87px;
+  border-radius: 8px;
+  background: rgba(53, 53, 62, 0.05);
+  box-shadow: inset 2px 2px 1px 0 rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.urna-brand-text {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Geist', sans-serif;
+  color: #1a4470;
+  line-height: 1.1;
+}
+
+.brand-line-1 { font-weight: 500; font-size: 18px; }
+.brand-line-2 { font-weight: 700; font-size: 18px; }
+
+.keypad {
+  flex: 1;
+  background: #35353e;
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25);
+  min-height: 0;
+}
+
+.keypad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.keypad-zero {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.keypad-zero .key-num { grid-column: 2; }
+
+.key-num {
+  background: #45454e;
+  border: none;
+  border-radius: 7px;
+  padding: 10px 14px;
+  cursor: pointer;
+  box-shadow: 0 3px 0 4px rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: transform 0.06s, box-shadow 0.06s;
+}
+
+.key-num:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 2px rgba(0, 0, 0, 0.6);
+}
+
+.key-label {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  color: #fff;
+  line-height: 1;
+}
+
+.key-label-sm {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #1f2937;
+  line-height: 1;
+}
+
+.keypad-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: auto;
+}
+
+.key-action {
+  border: none;
+  border-radius: 7px;
+  padding: 12px 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: transform 0.06s, box-shadow 0.06s;
+}
+
+.key-action:active {
+  transform: translateY(2px);
+}
+
+.key-branco {
+  background: #ffffff;
+  box-shadow: 0 3px 0 4px #b8b8b8;
+}
+.key-branco .key-label-sm { color: #1f2937; }
+
+.key-corrige {
+  background: #ffb878;
+  box-shadow: 0 3px 0 4px #d2691e;
+}
+.key-corrige .key-label-sm { color: #4a1f00; }
+
+.key-confirma {
+  background: #a3d0b3;
+  box-shadow: 0 3px 0 4px #038f4d;
+}
+.key-confirma .key-label-sm { color: #0a3a1a; }
+
+.key-confirma:disabled { opacity: 0.5; cursor: default; }
+.key-confirma:disabled:active { transform: none; }
+
+/* Braille dots */
+.braille {
+  display: inline-grid;
+  grid-template-columns: repeat(2, 5px);
+  grid-template-rows: repeat(3, 5px);
+  gap: 3px;
+  pointer-events: none;
+}
+
+.braille-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  box-shadow: 0.5px 0.5px 0.5px 0 rgba(0, 0, 0, 0.25);
+}
+
+.braille-dot.filled {
+  box-shadow: inset 0.5px 0.5px 0.5px 0 rgba(255, 255, 255, 0.34);
 }
 
 /* ─── Header ─── */
@@ -837,101 +1198,30 @@ html, body, #root {
 }
 
 /* ─── Mobile responsive ─── */
-@media (max-width: 640px) {
-  :root {
-    --keyboard-w: 100%;
-  }
+@media (max-width: 900px) {
+  html, body, #root { overflow: auto; }
+  .urna { overflow: auto; }
 
-  html, body, #root {
-    overflow: auto;
-  }
-
-  .urna {
-    overflow: auto;
-  }
-
-  /* Stack screen + keyboard vertically */
-  .urna-body {
+  .urna-content {
     flex-direction: column;
-    overflow: auto;
+    gap: 24px;
+    padding: 20px;
   }
 
-  .urna-screen {
-    margin: 8px 8px 4px 8px;
-    padding: 14px 16px 12px;
-    flex: none;
+  .urna-right { width: 100%; }
+
+  .urna-title { font-size: 28px; }
+
+  .digit-cell {
+    padding: 16px 10px;
+    font-size: 34px;
   }
 
-  .urna-keyboard {
-    width: 100%;
-    margin: 4px 8px 8px 8px;
-    border-radius: 6px;
-    padding: 10px 8px;
-    gap: 7px;
-    flex-shrink: 0;
-  }
+  .photo-card { height: 180px; }
 
-  .key {
-    font-size: clamp(18px, 6vw, 26px);
-    padding: 12px 0;
-  }
-
-  .key.key-corrige,
-  .key.key-branco,
-  .key.key-confirma,
-  .key.key-laranja {
-    padding: 10px 0;
-  }
-
-  /* Digit row */
-  .digit-row {
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 12px;
-  }
-
-  .digit-label {
-    font-size: 12px;
-    min-width: 50px;
-  }
-
-  .digit-box {
-    width: clamp(38px, 10vw, 52px);
-    height: clamp(46px, 10vh, 60px);
-    font-size: clamp(26px, 7vw, 36px);
-  }
-
-  /* Cargo title */
-  .urna-cargo {
-    font-size: clamp(22px, 6vw, 32px);
-    margin-bottom: 10px;
-  }
-
-  /* Candidate section stacks vertically on very small screens */
-  .candidate-section {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .candidate-row {
-    gap: 10px;
-  }
-
-  .candidate-photo,
-  .candidate-photo-placeholder {
-    width: clamp(70px, 18vw, 100px);
-    height: clamp(88px, 22vw, 124px);
-  }
-
-  .candidate-info .nome {
-    font-size: clamp(13px, 4vw, 17px);
-  }
-
-  /* Instructions */
-  .urna-instructions {
-    font-size: 11px;
-    padding-top: 6px;
-  }
+  .keypad { padding: 16px; }
+  .key-label { font-size: 22px; }
+  .key-label-sm { font-size: 14px; }
 
   /* Welcome screen */
   .welcome-title {
