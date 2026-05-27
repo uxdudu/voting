@@ -182,9 +182,8 @@ html, body, #root {
 }
 
 .photo-card {
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  max-height: 100%;
+  width: 149px;
+  height: 199px;
   border: 1px solid #cfcfcf;
   border-radius: 12px;
   background: #f7f7f7;
@@ -193,6 +192,7 @@ html, body, #root {
   justify-content: center;
   overflow: hidden;
   padding: 0;
+  flex-shrink: 0;
 }
 
 .photo-placeholder-img {
