@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { chapas } from '../data/chapas';
 
 function ChapaCard({ chapa, count, total }) {
@@ -90,6 +90,8 @@ function ConfirmModal({ onConfirm, onCancel, loading }) {
   );
 }
 
+const SESSION_KEY = 'admin_pwd';
+
 export default function ResultsScreen() {
   const [password, setPassword] = useState('');
   const [results, setResults] = useState(null);
@@ -99,21 +101,37 @@ export default function ResultsScreen() {
   const [resetting, setResetting] = useState(false);
   const [resetMsg, setResetMsg] = useState('');
 
-  async function handleLogin(e) {
-    e.preventDefault();
+  useEffect(() => {
+    const saved = sessionStorage.getItem(SESSION_KEY);
+    if (saved) fetchResults(saved);
+  }, []);
+
+  async function fetchResults(pwd) {
     setLoading(true);
     setError('');
     try {
       const res = await fetch('/api/results', {
-        headers: { 'x-teacher-password': password },
+        headers: { 'x-teacher-password': pwd },
       });
-      if (res.status === 401) { setError('Senha incorreta.'); setLoading(false); return; }
+      if (res.status === 401) {
+        sessionStorage.removeItem(SESSION_KEY);
+        setError('Senha incorreta.');
+        setLoading(false);
+        return;
+      }
       const data = await res.json();
+      sessionStorage.setItem(SESSION_KEY, pwd);
+      setPassword(pwd);
       setResults(data);
     } catch {
       setError('Erro ao conectar ao servidor.');
     }
     setLoading(false);
+  }
+
+  async function handleLogin(e) {
+    e.preventDefault();
+    fetchResults(password);
   }
 
   async function handleReset() {
@@ -179,7 +197,7 @@ export default function ResultsScreen() {
         <div className="results-actions">
           {resetMsg && <span className="reset-msg">{resetMsg}</span>}
           <button className="btn-reset" onClick={() => setShowConfirm(true)}>Resetar Votos</button>
-          <button className="results-logout" onClick={() => setResults(null)}>Sair</button>
+          <button className="results-logout" onClick={() => { sessionStorage.removeItem(SESSION_KEY); setResults(null); setPassword(''); }}>Sair</button>
         </div>
       </div>
 
