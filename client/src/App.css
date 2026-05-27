@@ -587,31 +587,43 @@ html, body, #root {
 
 /* ─── Photos ─── */
 .result-card-photos {
-  position: relative;
-  width: 100px;
-  height: 100px;
-  margin-bottom: 4px;
+  display: flex;
+  gap: 6px;
+  align-items: flex-end;
+  justify-content: center;
+  margin-bottom: 6px;
 }
 
 .result-photo-wrap {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 84px;
-  height: 84px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.result-photo-circle {
+  width: 62px;
+  height: 62px;
   border-radius: 50%;
   overflow: hidden;
   border: 3px solid #fff;
   box-shadow: 0 2px 8px #0002;
+  flex-shrink: 0;
 }
 
-.result-photo-vice {
-  top: 16px;
-  left: 16px;
-  width: 72px;
-  height: 72px;
-  z-index: 1;
+.result-photo-vice .result-photo-circle {
+  width: 52px;
+  height: 52px;
   border-color: #ede7f6;
+}
+
+.result-photo-role {
+  font-size: 9px;
+  font-weight: bold;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .result-photo {
@@ -640,10 +652,15 @@ html, body, #root {
   height: 100%;
 }
 
+.result-photo-badge-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
 .result-numero-badge {
   position: absolute;
-  top: -6px;
-  right: -6px;
+  top: -4px;
+  right: -8px;
   background: #4527a0;
   color: #fff;
   font-size: 10px;
@@ -653,6 +670,7 @@ html, body, #root {
   z-index: 2;
   font-family: 'Courier New', Courier, monospace;
   letter-spacing: 0.5px;
+  white-space: nowrap;
 }
 
 /* ─── Percentage ─── */

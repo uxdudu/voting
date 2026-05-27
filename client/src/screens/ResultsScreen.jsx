@@ -10,15 +10,23 @@ function ChapaCard({ chapa, count, total }) {
     <div className="result-card">
       <div className="result-card-photos">
         <div className="result-photo-wrap">
-          {presErr
-            ? <div className="result-photo-fallback"><SilhouetteIcon /></div>
-            : <img src={chapa.presidente.foto} alt={chapa.presidente.nome} className="result-photo" onError={() => setPresErr(true)} />}
-          <span className="result-numero-badge">{chapa.numero}</span>
+          <div className="result-photo-badge-wrap">
+            <div className="result-photo-circle">
+              {presErr
+                ? <div className="result-photo-fallback"><SilhouetteIcon /></div>
+                : <img src={chapa.presidente.foto} alt={chapa.presidente.nome} className="result-photo" onError={() => setPresErr(true)} />}
+            </div>
+            <span className="result-numero-badge">{chapa.numero}</span>
+          </div>
+          <span className="result-photo-role">Presidente</span>
         </div>
         <div className="result-photo-wrap result-photo-vice">
-          {viceErr
-            ? <div className="result-photo-fallback"><SilhouetteIcon /></div>
-            : <img src={chapa.vice.foto} alt={chapa.vice.nome} className="result-photo" onError={() => setViceErr(true)} />}
+          <div className="result-photo-circle">
+            {viceErr
+              ? <div className="result-photo-fallback"><SilhouetteIcon /></div>
+              : <img src={chapa.vice.foto} alt={chapa.vice.nome} className="result-photo" onError={() => setViceErr(true)} />}
+          </div>
+          <span className="result-photo-role">Vice</span>
         </div>
       </div>
 
