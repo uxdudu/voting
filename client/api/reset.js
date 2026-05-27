@@ -1,8 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
 
+// Usa a service_role key para bypassar RLS e poder deletar todos os votos
 const supabase = createClient(
   process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
+  process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
 const TEACHER_PASSWORD = (process.env.TEACHER_PASSWORD || 'professor123').trim();
