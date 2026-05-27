@@ -485,6 +485,14 @@ html, body, #root {
   justify-content: space-between;
 }
 
+.results-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 .results-logout {
   padding: 8px 20px;
   background: #1a237e;
@@ -494,6 +502,63 @@ html, body, #root {
   cursor: pointer;
   font-size: 13px;
   font-family: 'Courier New', Courier, monospace;
+}
+
+.btn-reset {
+  padding: 8px 20px;
+  background: #b71c1c;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.btn-reset:hover {
+  background: #d32f2f;
+}
+
+.reset-msg {
+  font-size: 13px;
+  color: #2e7d32;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* ─── Confirm modal actions ─── */
+.modal-actions {
+  margin-top: 18px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.modal-btn-cancel {
+  padding: 9px 22px;
+  background: #eee;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.modal-btn-confirm {
+  padding: 9px 22px;
+  background: #b71c1c;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.modal-btn-confirm:disabled,
+.modal-btn-cancel:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 .results-grid {

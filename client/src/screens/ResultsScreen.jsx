@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { chapas } from '../data/chapas';
 
-function ChapaCard({ chapa, count, total, rank }) {
+function ChapaCard({ chapa, count, total }) {
   const pct = total > 0 ? ((count / total) * 100).toFixed(2) : '0.00';
   const [presErr, setPresErr] = useState(false);
   const [viceErr, setViceErr] = useState(false);
@@ -73,11 +73,31 @@ function SilhouetteIcon() {
   );
 }
 
+function ConfirmModal({ onConfirm, onCancel, loading }) {
+  return (
+    <div className="modal-overlay">
+      <div className="modal-box">
+        <h3>Resetar todos os votos?</h3>
+        <p>Esta ação apagará <strong>todos os votos</strong> do banco de dados e não pode ser desfeita.</p>
+        <div className="modal-actions">
+          <button className="modal-btn-cancel" onClick={onCancel} disabled={loading}>Cancelar</button>
+          <button className="modal-btn-confirm" onClick={onConfirm} disabled={loading}>
+            {loading ? 'Resetando...' : 'Sim, resetar'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ResultsScreen() {
   const [password, setPassword] = useState('');
   const [results, setResults] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [resetting, setResetting] = useState(false);
+  const [resetMsg, setResetMsg] = useState('');
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -94,6 +114,28 @@ export default function ResultsScreen() {
       setError('Erro ao conectar ao servidor.');
     }
     setLoading(false);
+  }
+
+  async function handleReset() {
+    setResetting(true);
+    try {
+      const res = await fetch('/api/reset', {
+        method: 'POST',
+        headers: { 'x-teacher-password': password },
+      });
+      if (res.status === 401) { setShowConfirm(false); setResetting(false); return; }
+      const refreshed = await fetch('/api/results', {
+        headers: { 'x-teacher-password': password },
+      });
+      const data = await refreshed.json();
+      setResults(data);
+      setResetMsg('Votos resetados com sucesso.');
+      setTimeout(() => setResetMsg(''), 3000);
+    } catch {
+      setResetMsg('Erro ao resetar.');
+    }
+    setShowConfirm(false);
+    setResetting(false);
   }
 
   if (!results) {
@@ -121,12 +163,24 @@ export default function ResultsScreen() {
 
   return (
     <div className="results-screen results-screen--cards">
+      {showConfirm && (
+        <ConfirmModal
+          onConfirm={handleReset}
+          onCancel={() => setShowConfirm(false)}
+          loading={resetting}
+        />
+      )}
+
       <div className="results-header">
         <div>
           <h2 className="results-title">Resultado da Eleição</h2>
           <p className="results-total">Total de votos apurados: <strong>{total}</strong></p>
         </div>
-        <button className="results-logout" onClick={() => setResults(null)}>Sair</button>
+        <div className="results-actions">
+          {resetMsg && <span className="reset-msg">{resetMsg}</span>}
+          <button className="btn-reset" onClick={() => setShowConfirm(true)}>Resetar Votos</button>
+          <button className="results-logout" onClick={() => setResults(null)}>Sair</button>
+        </div>
       </div>
 
       <div className="results-grid">

@@ -6,6 +6,7 @@
     { "source": "/api/vote", "destination": "/api/vote" },
     { "source": "/api/results", "destination": "/api/results" },
     { "source": "/api/status", "destination": "/api/status" },
+    { "source": "/api/reset", "destination": "/api/reset" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
