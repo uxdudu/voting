@@ -30,6 +30,15 @@ app.get('/api/results', (req, res) => {
   res.json({ results: rows, total: totalVotes });
 });
 
+app.post('/api/reset', (req, res) => {
+  const password = req.headers['x-teacher-password'];
+  if (password !== TEACHER_PASSWORD) {
+    return res.status(401).json({ error: 'Senha incorreta' });
+  }
+  db.prepare('DELETE FROM votes').run();
+  res.json({ ok: true });
+});
+
 app.get('/api/status', (_req, res) => {
   res.json({ open: true });
 });

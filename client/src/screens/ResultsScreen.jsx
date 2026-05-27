@@ -108,6 +108,7 @@ export default function ResultsScreen() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [resetting, setResetting] = useState(false);
   const [resetMsg, setResetMsg] = useState('');
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     const saved = sessionStorage.getItem(SESSION_KEY);
@@ -140,6 +141,21 @@ export default function ResultsScreen() {
   async function handleLogin(e) {
     e.preventDefault();
     fetchResults(password);
+  }
+
+  async function handleRefresh() {
+    if (refreshing) return;
+    setRefreshing(true);
+    try {
+      const res = await fetch('/api/results', {
+        headers: { 'x-teacher-password': password },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setResults(data);
+      }
+    } catch {}
+    setRefreshing(false);
   }
 
   async function handleReset() {
@@ -204,6 +220,9 @@ export default function ResultsScreen() {
         </div>
         <div className="results-actions">
           {resetMsg && <span className="reset-msg">{resetMsg}</span>}
+          <button className="btn-refresh" onClick={handleRefresh} disabled={refreshing}>
+            {refreshing ? 'Atualizando...' : 'Atualizar'}
+          </button>
           <button className="btn-reset" onClick={() => setShowConfirm(true)}>Resetar Votos</button>
           <button className="results-logout" onClick={() => { sessionStorage.removeItem(SESSION_KEY); setResults(null); setPassword(''); }}>Sair</button>
         </div>

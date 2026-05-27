@@ -515,6 +515,20 @@ html, body, #root {
   font-family: 'Courier New', Courier, monospace;
 }
 
+.btn-refresh {
+  padding: 8px 20px;
+  background: #2e7d32;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.btn-refresh:hover { background: #388e3c; }
+.btn-refresh:disabled { opacity: 0.6; cursor: default; }
+
 .btn-reset:hover {
   background: #d32f2f;
 }
