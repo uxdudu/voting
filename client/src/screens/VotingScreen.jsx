@@ -5,47 +5,25 @@ import { useAudio } from '../hooks/useAudio';
 
 const DIGIT_COUNT = 4;
 
-// Braille dot positions for digits (a-j pattern). 1-based dot numbers in standard 2x3 cell.
+// Braille (Brasil) — strings prontas em Unicode
 const BRAILLE = {
-  '1': [1],
-  '2': [1, 2],
-  '3': [1, 4],
-  '4': [1, 4, 5],
-  '5': [1, 5],
-  '6': [1, 2, 4],
-  '7': [1, 2, 4, 5],
-  '8': [1, 2, 5],
-  '9': [2, 4],
-  '0': [2, 4, 5],
-  BRANCO: [1, 2, 3],
-  CORRIGE: [1, 4, 3, 5],
-  CONFIRMA: [1, 4, 5, 3],
+  '1': '⠼⠁',
+  '2': '⠼⠃',
+  '3': '⠼⠉',
+  '4': '⠼⠙',
+  '5': '⠼⠑',
+  '6': '⠼⠋',
+  '7': '⠼⠛',
+  '8': '⠼⠓',
+  '9': '⠼⠊',
+  '0': '⠼⠚',
+  BRANCO: '⠃⠗⠁⠝⠉⠕',
+  CORRIGE: '⠉⠕⠗⠗⠊⠛⠑',
+  CONFIRMA: '⠉⠕⠝⠋⠊⠗⠍⠁',
 };
 
-function Braille({ dots, color = '#202729' }) {
-  // 6-dot cell: cols 1-2, rows 1-3 → dots numbered as per standard braille:
-  // 1 4
-  // 2 5
-  // 3 6
-  const positions = {
-    1: [1, 1], 2: [1, 2], 3: [1, 3],
-    4: [2, 1], 5: [2, 2], 6: [2, 3],
-  };
-  return (
-    <div className="braille">
-      {[1, 2, 3, 4, 5, 6].map((n) => {
-        const [c, r] = positions[n];
-        const filled = dots.includes(n);
-        return (
-          <span
-            key={n}
-            className={`braille-dot${filled ? ' filled' : ''}`}
-            style={{ gridColumn: c, gridRow: r, background: filled ? color : 'transparent' }}
-          />
-        );
-      })}
-    </div>
-  );
+function Braille({ text, color }) {
+  return <span className="braille" style={color ? { color } : undefined} aria-hidden="true">{text}</span>;
 }
 
 function SilhouettePresidente() {
@@ -106,7 +84,7 @@ function NumKey({ digit, onPress }) {
   return (
     <button className="key-num" onPointerDown={() => onPress(digit)}>
       <span className="key-label">{digit}</span>
-      <Braille dots={BRAILLE[digit]} color="#cfd6da" />
+      <Braille text={BRAILLE[digit]} color="#cfd6da" />
     </button>
   );
 }
@@ -273,11 +251,11 @@ export default function VotingScreen() {
               <div className="keypad-actions">
                 <button className="key-action key-branco" onPointerDown={pressBranco}>
                   <span className="key-label-sm">BRANCO</span>
-                  <Braille dots={BRAILLE.BRANCO} color="#0a8542" />
+                  <Braille text={BRAILLE.BRANCO} color="#3a3a3a" />
                 </button>
                 <button className="key-action key-corrige" onPointerDown={pressCorrige}>
                   <span className="key-label-sm">CORRIGE</span>
-                  <Braille dots={BRAILLE.CORRIGE} color="#a04000" />
+                  <Braille text={BRAILLE.CORRIGE} color="#5a2a00" />
                 </button>
                 <button
                   className="key-action key-confirma"
@@ -285,7 +263,7 @@ export default function VotingScreen() {
                   disabled={!isComplete || isInvalid || sending}
                 >
                   <span className="key-label-sm">CONFIRMA</span>
-                  <Braille dots={BRAILLE.CONFIRMA} color="#0a8542" />
+                  <Braille text={BRAILLE.CONFIRMA} color="#0a3a1a" />
                 </button>
               </div>
             </div>

@@ -398,25 +398,17 @@ html, body, #root {
 .key-confirma:disabled { opacity: 0.5; cursor: default; }
 .key-confirma:disabled:active { transform: none; }
 
-/* Braille dots */
+/* Braille (Unicode) */
 .braille {
-  display: inline-grid;
-  grid-template-columns: repeat(2, 5px);
-  grid-template-rows: repeat(3, 5px);
-  gap: 3px;
+  font-family: 'Apple Braille', 'Segoe UI Symbol', 'Noto Sans Symbols2', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 1px;
   pointer-events: none;
+  white-space: nowrap;
 }
 
-.braille-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  box-shadow: 0.5px 0.5px 0.5px 0 rgba(0, 0, 0, 0.25);
-}
-
-.braille-dot.filled {
-  box-shadow: inset 0.5px 0.5px 0.5px 0 rgba(255, 255, 255, 0.34);
-}
+.key-action .braille { font-size: 13px; }
 
 /* ─── Header ─── */
 .urna-header {
