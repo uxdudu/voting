@@ -26,27 +26,16 @@ function Braille({ text, color }) {
   return <span className="braille" style={color ? { color } : undefined} aria-hidden="true">{text}</span>;
 }
 
-function SilhouettePresidente() {
-  return (
-    <svg viewBox="0 0 211 211" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <circle cx="105.5" cy="78" r="40" fill="#001325" />
-      <ellipse cx="105.5" cy="190" rx="78" ry="60" fill="#001325" />
-    </svg>
-  );
+const PLACEHOLDER_PRES = '/candidatos/placeholder-presidente.jpg';
+const PLACEHOLDER_VICE = '/candidatos/vice-placeholder.jpg';
+
+function PlaceholderImg({ src }) {
+  return <img className="photo-placeholder-img" src={src} alt="" aria-hidden="true" />;
 }
 
-function SilhouetteVice() {
-  return (
-    <svg viewBox="0 0 211 211" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <circle cx="105.5" cy="80" r="42" fill="#001325" />
-      <path d="M40 195 Q105 130 171 195 L171 220 L40 220 Z" fill="#001325" />
-    </svg>
-  );
-}
-
-function CandidatePhoto({ foto, nome, fallback }) {
+function CandidatePhoto({ foto, nome, fallbackSrc }) {
   const [err, setErr] = useState(false);
-  if (err || !foto) return <div className="photo-placeholder">{fallback}</div>;
+  if (err || !foto) return <PlaceholderImg src={fallbackSrc} />;
   return (
     <img className="photo-img" src={foto} alt={nome} onError={() => setErr(true)} />
   );
@@ -177,8 +166,8 @@ export default function VotingScreen() {
                 <div className="photo-col">
                   <div className="photo-card">
                     {isComplete && chapa
-                      ? <CandidatePhoto foto={chapa.presidente.foto} nome={chapa.presidente.nome} fallback={<SilhouettePresidente />} />
-                      : <div className="photo-placeholder"><SilhouettePresidente /></div>}
+                      ? <CandidatePhoto foto={chapa.presidente.foto} nome={chapa.presidente.nome} fallbackSrc={PLACEHOLDER_PRES} />
+                      : <PlaceholderImg src={PLACEHOLDER_PRES} />}
                   </div>
                   <p className="photo-label">
                     {isComplete && chapa ? chapa.presidente.nome : 'Presidente'}
@@ -187,8 +176,8 @@ export default function VotingScreen() {
                 <div className="photo-col">
                   <div className="photo-card">
                     {isComplete && chapa
-                      ? <CandidatePhoto foto={chapa.vice.foto} nome={chapa.vice.nome} fallback={<SilhouetteVice />} />
-                      : <div className="photo-placeholder"><SilhouetteVice /></div>}
+                      ? <CandidatePhoto foto={chapa.vice.foto} nome={chapa.vice.nome} fallbackSrc={PLACEHOLDER_VICE} />
+                      : <PlaceholderImg src={PLACEHOLDER_VICE} />}
                   </div>
                   <p className="photo-label">
                     {isComplete && chapa ? chapa.vice.nome : 'Vice-Presidente'}
@@ -221,21 +210,7 @@ export default function VotingScreen() {
           {/* RIGHT: keyboard */}
           <div className="urna-right">
             <div className="urna-brand">
-              <img
-                src="/educacao-adventista.png"
-                alt="Educação Adventista"
-                className="urna-brand-logo"
-                onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextElementSibling.style.display = 'flex'; }}
-              />
-              <div className="urna-brand-fallback" style={{ display: 'none' }}>
-                <svg viewBox="0 0 32 32" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M16 4 L4 28 L10 28 L13 22 L19 22 L22 28 L28 28 Z M14.5 18 L17.5 18 L16 14 Z" fill="#1a4470" />
-                </svg>
-                <div className="urna-brand-text">
-                  <span className="brand-line-1">Educação</span>
-                  <span className="brand-line-2">Adventista</span>
-                </div>
-              </div>
+              <img src="/logo-eadv.png" alt="Educação Adventista" className="urna-brand-logo" />
             </div>
 
             <div className="keypad">
