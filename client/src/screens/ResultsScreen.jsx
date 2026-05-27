@@ -163,18 +163,27 @@ export default function ResultsScreen() {
     try {
       const res = await fetch('/api/reset', {
         method: 'POST',
-        headers: { 'x-teacher-password': password },
+        headers: { 'x-teacher-password': password, 'Content-Type': 'application/json' },
+        cache: 'no-store',
       });
-      if (res.status === 401) { setShowConfirm(false); setResetting(false); return; }
-      const refreshed = await fetch('/api/results', {
+      if (!res.ok) {
+        let detail = `HTTP ${res.status}`;
+        try { const j = await res.json(); if (j.error) detail = j.error; } catch {}
+        setResetMsg(`Falha ao resetar: ${detail}`);
+        setShowConfirm(false);
+        setResetting(false);
+        return;
+      }
+      const refreshed = await fetch('/api/results?t=' + Date.now(), {
         headers: { 'x-teacher-password': password },
+        cache: 'no-store',
       });
       const data = await refreshed.json();
       setResults(data);
-      setResetMsg('Votos resetados com sucesso.');
-      setTimeout(() => setResetMsg(''), 3000);
-    } catch {
-      setResetMsg('Erro ao resetar.');
+      setResetMsg(data.total === 0 ? 'Votos resetados com sucesso.' : `Reset retornou ok mas ainda há ${data.total} voto(s).`);
+      setTimeout(() => setResetMsg(''), 4000);
+    } catch (e) {
+      setResetMsg('Erro de rede ao resetar.');
     }
     setShowConfirm(false);
     setResetting(false);
